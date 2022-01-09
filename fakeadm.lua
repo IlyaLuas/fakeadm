@@ -15,7 +15,7 @@ local imgui = require 'imgui'
 
 local encoding = require 'encoding' 
 encoding.default = 'CP1251' 
-u8 = encoding.UTF8--script:reload()--ïåðåçàã ñêðèïòà
+u8 = encoding.UTF8--script:reload()
 --==========================================================xyna
 
 
@@ -36,7 +36,7 @@ local script_versText = iniupd.info.versText
 local ini_url = 'https://raw.githubusercontent.com/IlyaLuas/fakeadm/main/version.ini'
 local ini_path = getWorkingDirectory() .. "/version.ini"
 
-local script_url = "" -- òóò ñâîþ ññûëêó
+local script_url = "https://raw.githubusercontent.com/IlyaLuas/fakeadm/main/fakeadm.lua"
 local script_path = thisScript().path
 
 --==========================================================imgui
