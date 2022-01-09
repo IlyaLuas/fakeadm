@@ -15,7 +15,7 @@ local imgui = require 'imgui'
 
 local encoding = require 'encoding' 
 encoding.default = 'CP1251' 
-u8 = encoding.UTF8--script:reload()--перезаг скрипта
+u8 = encoding.UTF8--script:reload()--ГЇГҐГ°ГҐГ§Г ГЈ Г±ГЄГ°ГЁГЇГІГ 
 --==========================================================xyna
 
 
@@ -28,7 +28,7 @@ if iniupd == nil then
 end
 
 --==========================================================obnova 
-local obnova = false
+local obnova = false -- xyi
 
 local script_vers = iniupd.info.vers
 local script_versText = iniupd.info.versText
@@ -36,7 +36,7 @@ local script_versText = iniupd.info.versText
 local ini_url = 'https://raw.githubusercontent.com/IlyaLuas/fakeadm/main/version.ini'
 local ini_path = getWorkingDirectory() .. "/version.ini"
 
-local script_url = "" -- тут свою ссылку
+local script_url = "" -- ГІГіГІ Г±ГўГ®Гѕ Г±Г±Г»Г«ГЄГі
 local script_path = thisScript().path
 
 --==========================================================imgui
@@ -47,19 +47,19 @@ local tems = imgui.ImInt(1)
 local col = imgui.ImFloat3(1.0, 1.0, 1.0)
 local pole = 0
 --==========================================================code
---[[imgui.PushItemWidth(значение) imgui.InputText(u8"Input some text", textBuffer) imgui.PopItemWidth()]]
+--[[imgui.PushItemWidth(Г§Г­Г Г·ГҐГ­ГЁГҐ) imgui.InputText(u8"Input some text", textBuffer) imgui.PopItemWidth()]]
 function imgui.OnDrawFrame()
 	tema()
 	sx, sy = getScreenResolution()
 	if ocn.v then
 		imgui.SetNextWindowPos( imgui.ImVec2(sx/4.5, sy/4.5), imgui.Cond.FirstUseEver)
 		imgui.SetNextWindowSize(imgui.ImVec2(sx/1.7, sy/1.7), imgui.Cond.FirstUseEver)
-		imgui.Begin(u8'Название окна', ocn, imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)   
+		imgui.Begin(u8'ГЌГ Г§ГўГ Г­ГЁГҐ Г®ГЄГ­Г ', ocn, imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)   
 			imgui.BeginChild("x1", imgui.ImVec2(sx/8,sy/1.9), true)
-				if imgui.Button(u8'Основное',imgui.ImVec2(sx/8.8, 20)) then
+				if imgui.Button(u8'ГЋГ±Г­Г®ГўГ­Г®ГҐ',imgui.ImVec2(sx/8.8, 20)) then
 					pole = 0
 				end
-				if imgui.Button(u8'Информация',imgui.ImVec2(sx/8.8, 20)) then
+				if imgui.Button(u8'Г€Г­ГґГ®Г°Г¬Г Г¶ГЁГї',imgui.ImVec2(sx/8.8, 20)) then
 					pole = 1
 				end
 				if imgui.Button(u8'da',imgui.ImVec2(sx/8.8, 20)) then
@@ -142,7 +142,7 @@ end]]
 function tema()
 	if tems.v == 0 then
 		return
-	elseif tems.v == 1 then--синяя
+	elseif tems.v == 1 then--Г±ГЁГ­ГїГї
 		imgui.SwitchContext()
 		local style = imgui.GetStyle()
 		local colors = style.Colors
@@ -202,7 +202,7 @@ function tema()
 		colors[clr.PlotHistogram]          = ImVec4(0.90, 0.70, 0.00, 1.00)
 		colors[clr.PlotHistogramHovered]   = ImVec4(1.00, 0.60, 0.00, 1.00)
 		colors[clr.ModalWindowDarkening]   = ImVec4(0.80, 0.80, 0.80, 0.35)
-	elseif tems.v == 2 then--красная
+	elseif tems.v == 2 then--ГЄГ°Г Г±Г­Г Гї
 	    imgui.SwitchContext()
 		local style = imgui.GetStyle()
 		local colors = style.Colors
@@ -262,7 +262,7 @@ function tema()
 		colors[clr.PlotHistogram]          = ImVec4(0.90, 0.70, 0.00, 1.00)
 		colors[clr.PlotHistogramHovered]   = ImVec4(1.00, 0.60, 0.00, 1.00)
 		colors[clr.ModalWindowDarkening]   = ImVec4(0.80, 0.80, 0.80, 0.35)
-	elseif tems.v == 3 then--голубая
+	elseif tems.v == 3 then--ГЈГ®Г«ГіГЎГ Гї
 		imgui.SwitchContext()
 		local style = imgui.GetStyle()
 		local colors = style.Colors
@@ -322,7 +322,7 @@ function tema()
 		colors[clr.PlotHistogram]          = ImVec4(0.90, 0.70, 0.00, 1.00)
 		colors[clr.PlotHistogramHovered]   = ImVec4(1.00, 0.60, 0.00, 1.00)
 		colors[clr.ModalWindowDarkening]   = ImVec4(0.80, 0.80, 0.80, 0.35)
-	elseif tems.v == 4 then--темный дезайн сайта
+	elseif tems.v == 4 then--ГІГҐГ¬Г­Г»Г© Г¤ГҐГ§Г Г©Г­ Г±Г Г©ГІГ 
 		imgui.SwitchContext()
 		local style = imgui.GetStyle()
 		local colors = style.Colors
