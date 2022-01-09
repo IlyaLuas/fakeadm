@@ -46,7 +46,7 @@ local script_versText = iniupd.info.versText
 local ini_url = 'https://raw.githubusercontent.com/IlyaLuas/fakeadm/main/version.ini'
 local ini_path = getWorkingDirectory() .. "/version.ini"
 
-local script_url = "https://github.com/IlyaLuas/fakeadm/blob/main/fakeadm.lua" -- ГІГіГІ Г±ГўГ®Гѕ Г±Г±Г»Г«ГЄГі
+local script_url = "https://github.com/IlyaLuas/fakeadm/blob/main/fakeadm.lua?raw=true" -- Лох
 local script_path = thisScript().path
 
 --==========================================================imgui
