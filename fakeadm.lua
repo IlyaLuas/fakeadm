@@ -11,13 +11,23 @@ local dlstatus = require('moonloader').download_status
 local broadcaster = import('lib/broadcaster.lua')
 
 local inicfg = require 'inicfg'
+local fa = require 'fAwesome5'
 local imgui = require 'imgui'
 
 local encoding = require 'encoding' 
 encoding.default = 'CP1251' 
-u8 = encoding.UTF8--script:reload()
+u8 = encoding.UTF8--script:reload()--хуй
 --==========================================================xyna
+local fa_font = nil
+local fa_glyph_ranges = imgui.ImGlyphRanges({ fa.min_range, fa.max_range })
+function imgui.BeforeDrawFrame()
+    if fa_font == nil then
+        local font_config = imgui.ImFontConfig()
+        font_config.MergeMode = true
 
+        fa_font = imgui.GetIO().Fonts:AddFontFromFileTTF('moonloader/resource/fonts/fa-solid-900.ttf', 13.0, font_config, fa_glyph_ranges)
+    end
+end
 
 --==========================================================inicfg
 local iniupd = inicfg.load(nil, 'version')
@@ -36,7 +46,7 @@ local script_versText = iniupd.info.versText
 local ini_url = 'https://raw.githubusercontent.com/IlyaLuas/fakeadm/main/version.ini'
 local ini_path = getWorkingDirectory() .. "/version.ini"
 
-local script_url = "https://raw.githubusercontent.com/IlyaLuas/fakeadm/main/fakeadm.lua"
+local script_url = "https://github.com/IlyaLuas/fakeadm/blob/main/fakeadm.lua" -- ГІГіГІ Г±ГўГ®Гѕ Г±Г±Г»Г«ГЄГі
 local script_path = thisScript().path
 
 --==========================================================imgui
@@ -47,33 +57,21 @@ local tems = imgui.ImInt(1)
 local col = imgui.ImFloat3(1.0, 1.0, 1.0)
 local pole = 0
 --==========================================================code
---[[imgui.PushItemWidth(çíà÷åíèå) imgui.InputText(u8"Input some text", textBuffer) imgui.PopItemWidth()]]
+--[[imgui.PushItemWidth(Г§Г­Г Г·ГҐГ­ГЁГҐ) imgui.InputText(u8"Input some text", textBuffer) imgui.PopItemWidth()]]
 function imgui.OnDrawFrame()
 	tema()
 	sx, sy = getScreenResolution()
 	if ocn.v then
 		imgui.SetNextWindowPos( imgui.ImVec2(sx/4.5, sy/4.5), imgui.Cond.FirstUseEver)
 		imgui.SetNextWindowSize(imgui.ImVec2(sx/1.7, sy/1.7), imgui.Cond.FirstUseEver)
-		imgui.Begin(u8'Íàçâàíèå îêíà', ocn, imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)   
+		imgui.Begin(u8'Basic window', ocn, imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)   
 			imgui.BeginChild("x1", imgui.ImVec2(sx/8,sy/1.9), true)
-				if imgui.Button(u8'Îñíîâíîå',imgui.ImVec2(sx/8.8, 20)) then
-					pole = 0
-				end
-				if imgui.Button(u8'Èíôîðìàöèÿ',imgui.ImVec2(sx/8.8, 20)) then
-					pole = 1
-				end
-				if imgui.Button(u8'da',imgui.ImVec2(sx/8.8, 20)) then
-					pole = 2
-				end
-				if imgui.Button(u8'da',imgui.ImVec2(sx/8.8, 20)) then
-					pole = 3
-				end
-				if imgui.Button(u8'da',imgui.ImVec2(sx/8.8, 20)) then
-					pole = 4
-				end
-				if imgui.Button(u8'da',imgui.ImVec2(sx/8.8, 20)) then
-					pole = 5
-				end
+				if imgui.Button(fa.ICON_FA_LAPTOP..' Basic',imgui.ImVec2(sx/8.8, 20)) then pole = 0 end
+				if imgui.Button(fa.ICON_FA_INFO_CIRCLE..' Information',imgui.ImVec2(sx/8.8, 20)) then pole = 1 end
+				if imgui.Button(fa.ICON_FA_HANDSHAKE ..' Friends online',imgui.ImVec2(sx/8.8, 20)) then pole = 2 end
+				if imgui.Button(fa.ICON_FA_..'Settings',imgui.ImVec2(sx/8.8, 20)) then pole = 3 end
+				if imgui.Button(u8'da',imgui.ImVec2(sx/8.8, 20)) then pole = 4 end
+				if imgui.Button(u8'da',imgui.ImVec2(sx/8.8, 20)) then pole = 5 end
 				
 			imgui.EndChild()
 				imgui.SameLine()
@@ -141,7 +139,7 @@ end]]
 function tema()
 	if tems.v == 0 then
 		return
-	elseif tems.v == 1 then--ñèíÿÿ
+	elseif tems.v == 1 then--Г±ГЁГ­ГїГї
 		imgui.SwitchContext()
 		local style = imgui.GetStyle()
 		local colors = style.Colors
@@ -201,7 +199,7 @@ function tema()
 		colors[clr.PlotHistogram]          = ImVec4(0.90, 0.70, 0.00, 1.00)
 		colors[clr.PlotHistogramHovered]   = ImVec4(1.00, 0.60, 0.00, 1.00)
 		colors[clr.ModalWindowDarkening]   = ImVec4(0.80, 0.80, 0.80, 0.35)
-	elseif tems.v == 2 then--êðàñíàÿ
+	elseif tems.v == 2 then--ГЄГ°Г Г±Г­Г Гї
 	    imgui.SwitchContext()
 		local style = imgui.GetStyle()
 		local colors = style.Colors
@@ -261,7 +259,7 @@ function tema()
 		colors[clr.PlotHistogram]          = ImVec4(0.90, 0.70, 0.00, 1.00)
 		colors[clr.PlotHistogramHovered]   = ImVec4(1.00, 0.60, 0.00, 1.00)
 		colors[clr.ModalWindowDarkening]   = ImVec4(0.80, 0.80, 0.80, 0.35)
-	elseif tems.v == 3 then--ãîëóáàÿ
+	elseif tems.v == 3 then--ГЈГ®Г«ГіГЎГ Гї
 		imgui.SwitchContext()
 		local style = imgui.GetStyle()
 		local colors = style.Colors
@@ -321,7 +319,7 @@ function tema()
 		colors[clr.PlotHistogram]          = ImVec4(0.90, 0.70, 0.00, 1.00)
 		colors[clr.PlotHistogramHovered]   = ImVec4(1.00, 0.60, 0.00, 1.00)
 		colors[clr.ModalWindowDarkening]   = ImVec4(0.80, 0.80, 0.80, 0.35)
-	elseif tems.v == 4 then--òåìíûé äåçàéí ñàéòà
+	elseif tems.v == 4 then--ГІГҐГ¬Г­Г»Г© Г¤ГҐГ§Г Г©Г­ Г±Г Г©ГІГ 
 		imgui.SwitchContext()
 		local style = imgui.GetStyle()
 		local colors = style.Colors
@@ -430,5 +428,7 @@ function tema()
         colors[clr.PopupBg] = ImVec4(0.076, 0.143, 0.209, 1.000);
 	end
 end
+
+
 
 
