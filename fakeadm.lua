@@ -29,6 +29,25 @@ function imgui.BeforeDrawFrame()
     end
 end
 
+lang = {
+	['ru'] = {
+	bw = ' Основное окно',
+	basic = ' Основное',
+	info = ' Информация',
+	fo = ' Друзья онлайн',
+	sett = ' Настройки',
+	serv = ' Сервера'
+	},
+	['eng'] = {
+	bw = ' Basic window',
+	basic = ' Basic',
+	info = ' Information',
+	fo = ' Friends online',
+	sett = ' Settings',
+	serv = ' Servers'
+	},
+}
+
 --==========================================================inicfg
 local iniupd = inicfg.load(nil, 'version')
 if iniupd == nil then
@@ -36,7 +55,17 @@ if iniupd == nil then
 	inicfg.save(iniupd, 'version')
 	script:reload()
 end
-
+local fsett = inicfg.load(nil, 'fsettings')
+if fsett == nil then
+	fsett = inicfg.load({
+		['sett'] = {
+			lang = 'eng', 
+			tems = 1
+		}
+	})
+	inicfg.save(fsett, 'fsettings')
+	script:reload()
+end
 --==========================================================obnova 
 local obnova = false -- xyi
 
@@ -44,7 +73,7 @@ local script_vers = iniupd.info.vers
 local script_versText = iniupd.info.versText
 
 local ini_url = 'https://raw.githubusercontent.com/IlyaLuas/fakeadm/main/version.ini'
-local ini_path = getWorkingDirectory() .. "/version.ini"
+local ini_path = getWorkingDirectory() .. "/moonloader/config/version.ini"
 
 local script_url = "https://github.com/IlyaLuas/fakeadm/blob/main/fakeadm.lua?raw=true" -- Лох
 local script_path = thisScript().path
@@ -52,7 +81,7 @@ local script_path = thisScript().path
 --==========================================================imgui
 local ocn = imgui.ImBool(false)
 
-local tems = imgui.ImInt(1) 
+local tems = imgui.ImInt(fsett.sett.tems) 
 
 local col = imgui.ImFloat3(1.0, 1.0, 1.0)
 local pole = 0
@@ -64,15 +93,24 @@ function imgui.OnDrawFrame()
 	if ocn.v then
 		imgui.SetNextWindowPos( imgui.ImVec2(sx/4.5, sy/4.5), imgui.Cond.FirstUseEver)
 		imgui.SetNextWindowSize(imgui.ImVec2(sx/1.7, sy/1.7), imgui.Cond.FirstUseEver)
+		if fsett.sett.lang == 'eng' then
 		imgui.Begin(u8'Basic window', ocn, imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)   
 			imgui.BeginChild("x1", imgui.ImVec2(sx/8,sy/1.9), true)
-				if imgui.Button(fa.ICON_FA_LAPTOP..' Basic',imgui.ImVec2(sx/8.8, 20)) then pole = 0 end
-				if imgui.Button(fa.ICON_FA_INFO_CIRCLE..' Information',imgui.ImVec2(sx/8.8, 20)) then pole = 1 end
-				if imgui.Button(fa.ICON_FA_HANDSHAKE ..' Friends online',imgui.ImVec2(sx/8.8, 20)) then pole = 2 end
-				if imgui.Button(fa.ICON_FA_..'Settings',imgui.ImVec2(sx/8.8, 20)) then pole = 3 end
-				if imgui.Button(u8'da',imgui.ImVec2(sx/8.8, 20)) then pole = 4 end
-				if imgui.Button(u8'da',imgui.ImVec2(sx/8.8, 20)) then pole = 5 end
-				
+					if imgui.Button(fa.ICON_FA_LAPTOP..''..u8:decode(lang.eng.basic),imgui.ImVec2(sx/8.8, 20)) then pole = 0 end
+					if imgui.Button(fa.ICON_FA_INFO_CIRCLE..''..u8:decode(lang.eng.info),imgui.ImVec2(sx/8.8, 20)) then pole = 1 end
+					if imgui.Button(fa.ICON_FA_HANDSHAKE..''..u8:decode(lang.eng.fo),imgui.ImVec2(sx/8.8, 20)) then pole = 2 end
+					if imgui.Button(fa.ICON_FA_..''..u8:decode(lang.eng.sett),imgui.ImVec2(sx/8.8, 20)) then pole = 3 end
+					if imgui.Button(fa.ICON_FA_..''..u8:decode(lang.eng.serv),imgui.ImVec2(sx/8.8, 20)) then pole = 4 end
+					--if imgui.Button(fa.ICON_FA_..''..u8:decode(lang.eng.),imgui.ImVec2(sx/8.8, 20)) then pole = 5 end
+		elseif fsett.sett.lang == 'ru' then
+		imgui.Begin(u8:decode(lang.ru.bw), ocn, imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)   
+			imgui.BeginChild("x1", imgui.ImVec2(sx/8,sy/1.9), true)
+					if imgui.Button(fa.ICON_FA_LAPTOP..''..u8:decode(lang.ru.basic),imgui.ImVec2(sx/8.8, 20)) then pole = 0 end
+					if imgui.Button(fa.ICON_FA_INFO_CIRCLE..''..u8:decode(lang.ru.info),imgui.ImVec2(sx/8.8, 20)) then pole = 1 end
+					if imgui.Button(fa.ICON_FA_HANDSHAKE..''..u8:decode(lang.ru.fo),imgui.ImVec2(sx/8.8, 20)) then pole = 2 end
+					if imgui.Button(fa.ICON_FA_..''..u8:decode(lang.ru.sett),imgui.ImVec2(sx/8.8, 20)) then pole = 3 end
+					if imgui.Button(fa.ICON_FA_..''..u8:decode(lang.ru.serv),imgui.ImVec2(sx/8.8, 20)) then pole = 4 end
+		end
 			imgui.EndChild()
 				imgui.SameLine()
 			imgui.BeginChild("x2", imgui.ImVec2(sx/2.25,sy/1.9), true)
@@ -428,6 +466,8 @@ function tema()
         colors[clr.PopupBg] = ImVec4(0.076, 0.143, 0.209, 1.000);
 	end
 end
+
+
 
 
 
