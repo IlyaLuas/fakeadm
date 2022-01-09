@@ -97,10 +97,11 @@ function imgui.OnDrawFrame()
 
 		imgui.Begin(u8(fsett.sett.lang == 'eng' and lang.eng.bw or lang.ru.bw), ocn, imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)   
 			imgui.BeginChild("x1", imgui.ImVec2(sx/8,sy/1.9), true)
-					if imgui.Button(fa.ICON_FA_LAPTOP..u8(fsett.sett.lang == 'eng' and lang.eng.basic or lang.ru.basic),imgui.ImVec2(sx/8.8, 20)) then pole = 0 end
-					if imgui.Button(fa.ICON_FA_INFO_CIRCLE..u8(fsett.sett.lang == 'eng' and lang.eng.info or lang.ru.info),imgui.ImVec2(sx/8.8, 20)) then pole = 1 end
-					if imgui.Button(fa.ICON_FA_HANDSHAKE..u8(fsett.sett.lang == 'eng' and lang.eng.fo or lang.ru.fo),imgui.ImVec2(sx/8.8, 20)) then pole = 2 end
-					if imgui.Button(fa.ICON_FA_PEN..u8(fsett.sett.lang == 'eng' and lang.eng.sett or lang.ru.sett),imgui.ImVec2(sx/8.8, 20)) then pole = 3 end
+					imgui.SetCursorPosX(7)
+					if imgui.Button(fa.ICON_FA_LAPTOP..u8(fsett.sett.lang == 'eng' and lang.eng.basic or lang.ru.basic),imgui.ImVec2(sx/8.8, 20)) then pole = 0 end imgui.SetCursorPosX(7)
+					if imgui.Button(fa.ICON_FA_INFO_CIRCLE..u8(fsett.sett.lang == 'eng' and lang.eng.info or lang.ru.info),imgui.ImVec2(sx/8.8, 20)) then pole = 1 end imgui.SetCursorPosX(7)
+					if imgui.Button(fa.ICON_FA_HANDSHAKE..u8(fsett.sett.lang == 'eng' and lang.eng.fo or lang.ru.fo),imgui.ImVec2(sx/8.8, 20)) then pole = 2 end imgui.SetCursorPosX(7)
+					if imgui.Button(fa.ICON_FA_PEN..u8(fsett.sett.lang == 'eng' and lang.eng.sett or lang.ru.sett),imgui.ImVec2(sx/8.8, 20)) then pole = 3 end imgui.SetCursorPosX(7)
 					if imgui.Button(fa.ICON_FA_LIST..u8(fsett.sett.lang == 'eng' and lang.eng.serv or lang.ru.serv),imgui.ImVec2(sx/8.8, 20)) then pole = 4 end
 			imgui.EndChild()
 				imgui.SameLine()
@@ -119,7 +120,7 @@ function imgui.OnDrawFrame()
 					imgui.BeginChild("tema", imgui.ImVec2(sx/4.65,sy/14), true)
 						imgui.PushItemWidth(200)
 							imgui.SetCursorPosX(38)
-							if imgui.Combo(u8' ', tems, {'1 ', u8(fsett.sett.lang == 'eng' and '2 - Blue' or '2 - Синия'), u8(fsett.sett.lang == 'eng' and '3 - Оранжевая' or '3 - Оранжевая'), u8(fsett.sett.lang == 'eng' and'4 - Diamond' or '4 - Алмазная'), u8(fsett.sett.lang == 'eng' and '5wd - Blue' or '5 - Голубая'), '6 - CSGOsimple'}, 6) then
+							if imgui.Combo(u8' ', tems, {u8(fsett.sett.lang == 'eng' and '1 - Turquoise' or '1 - Бирюзовая'), u8(fsett.sett.lang == 'eng' and '2 - Blue' or '2 - Синия'), u8(fsett.sett.lang == 'eng' and '3 - Оранжевая' or '3 - Оранжевая'), u8(fsett.sett.lang == 'eng' and'4 - Diamond' or '4 - Алмазная'), u8(fsett.sett.lang == 'eng' and '5 - Blue' or '5 - Голубая'), '6 - CSGOsimple'}, 6) then
 								if tems.v == 0 then fsett.sett.tems = 0 end
 								if tems.v == 1 then fsett.sett.tems = 1 end
 								if tems.v == 2 then fsett.sett.tems = 2 end
@@ -141,8 +142,8 @@ function imgui.OnDrawFrame()
 		imgui.End()
 		
 	end
-    --[[imgui.Begin('test')
-    imgui.ColorEdit3('test', color)
+    --[[imgui.Begin('xz')
+    imgui.ColorEdit3('xz', color)
 
     imgui.End()]]
 end
@@ -151,7 +152,7 @@ function main()
     if not isSampLoaded() or not isSampfuncsLoaded() then return end 
     wait(100) 
 	sampRegisterChatCommand('fsett', function() ocn.v = not ocn.v end)
-    --[[broadcaster.registerHandler('myhndl', Test)
+    --[[broadcaster.registerHandler('myhndl', admChat)
     sampRegisterChatCommand('a', function(arg)
         broadcaster.sendMessage(u8(arg), 'myhndl')
     end)]]
@@ -183,7 +184,7 @@ end
 
 
 
---[[function Test(message)
+--[[function admChat(message)
     sampAddChatMessage('New message: ' .. u8:decode(message), 0x00FF00)
 end
 
@@ -197,7 +198,55 @@ end]]
 
 function tema()
 	if tems.v == 0 then
-		
+		imgui.SwitchContext()
+		local style  = imgui.GetStyle()
+		local colors = style.Colors
+		local clr    = imgui.Col
+		local ImVec4 = imgui.ImVec4
+		local ImVec2 = imgui.ImVec2
+		colors[clr.Text]                 = ImVec4(0.86, 0.93, 0.89, 0.78)
+                colors[clr.TextDisabled]         = ImVec4(0.36, 0.42, 0.47, 1.00)
+                colors[clr.WindowBg]             = ImVec4(0.11, 0.15, 0.17, 1.00)
+                colors[clr.ChildWindowBg]        = ImVec4(0.15, 0.18, 0.22, 1.00)
+                colors[clr.PopupBg]              = ImVec4(0.08, 0.08, 0.08, 0.94)
+                colors[clr.Border]               = ImVec4(0.43, 0.43, 0.50, 0.50)
+                colors[clr.BorderShadow]         = ImVec4(0.00, 0.00, 0.00, 0.00)
+                colors[clr.FrameBg]              = ImVec4(0.20, 0.25, 0.29, 1.00)
+                colors[clr.FrameBgHovered]       = ImVec4(0.12, 0.20, 0.28, 1.00)
+                colors[clr.FrameBgActive]        = ImVec4(0.09, 0.12, 0.14, 1.00)
+                colors[clr.TitleBg]                = ImVec4(0.04, 0.04, 0.04, 1.00)
+                colors[clr.TitleBgActive]          = ImVec4(0.16, 0.48, 0.42, 1.00)
+                colors[clr.TitleBgCollapsed]       = ImVec4(0.00, 0.00, 0.00, 0.51)
+                colors[clr.MenuBarBg]            = ImVec4(0.15, 0.18, 0.22, 1.00)
+                colors[clr.ScrollbarBg]          = ImVec4(0.02, 0.02, 0.02, 0.39)
+                colors[clr.ScrollbarGrab]        = ImVec4(0.20, 0.25, 0.29, 1.00)
+                colors[clr.ScrollbarGrabHovered] = ImVec4(0.18, 0.22, 0.25, 1.00)
+                colors[clr.ScrollbarGrabActive]  = ImVec4(0.09, 0.21, 0.31, 1.00)
+                colors[clr.ComboBg]                = colors[clr.PopupBg]
+                colors[clr.CheckMark]              = ImVec4(0.26, 0.98, 0.85, 1.00)
+                colors[clr.SliderGrab]             = ImVec4(0.24, 0.88, 0.77, 1.00)
+                colors[clr.SliderGrabActive]       = ImVec4(0.26, 0.98, 0.85, 1.00)
+                colors[clr.Button]                 = ImVec4(0.26, 0.98, 0.85, 0.30)
+                colors[clr.ButtonHovered]          = ImVec4(0.26, 0.98, 0.85, 0.50)
+                colors[clr.ButtonActive]           = ImVec4(0.06, 0.98, 0.82, 0.50)
+                colors[clr.Header]                 = ImVec4(0.26, 0.98, 0.85, 0.31)
+                colors[clr.HeaderHovered]          = ImVec4(0.26, 0.98, 0.85, 0.80)
+                colors[clr.HeaderActive]           = ImVec4(0.26, 0.98, 0.85, 1.00)
+                colors[clr.Separator]            = ImVec4(0.50, 0.50, 0.50, 1.00)
+                colors[clr.SeparatorHovered]     = ImVec4(0.60, 0.60, 0.70, 1.00)
+                colors[clr.SeparatorActive]      = ImVec4(0.70, 0.70, 0.90, 1.00)
+                colors[clr.ResizeGrip]           = ImVec4(0.26, 0.59, 0.98, 0.25)
+                colors[clr.ResizeGripHovered]    = ImVec4(0.26, 0.59, 0.98, 0.67)
+                colors[clr.ResizeGripActive]     = ImVec4(0.06, 0.05, 0.07, 1.00)
+                colors[clr.CloseButton]          = ImVec4(0.40, 0.39, 0.38, 0.16)
+                colors[clr.CloseButtonHovered]   = ImVec4(0.40, 0.39, 0.38, 0.39)
+                colors[clr.CloseButtonActive]    = ImVec4(0.40, 0.39, 0.38, 1.00)
+                colors[clr.PlotLines]            = ImVec4(0.61, 0.61, 0.61, 1.00)
+                colors[clr.PlotLinesHovered]     = ImVec4(1.00, 0.43, 0.35, 1.00)
+                colors[clr.PlotHistogram]        = ImVec4(0.90, 0.70, 0.00, 1.00)
+                colors[clr.PlotHistogramHovered] = ImVec4(1.00, 0.60, 0.00, 1.00)
+                colors[clr.TextSelectedBg]       = ImVec4(0.25, 1.00, 0.00, 0.43)
+                colors[clr.ModalWindowDarkening] = ImVec4(1.00, 0.98, 0.95, 0.73)
 	elseif tems.v == 1 then--Г±ГЁГ­ГїГї
 		imgui.SwitchContext()
 		local style  = imgui.GetStyle()
@@ -559,6 +608,11 @@ function tema()
 		colors[clr.ModalWindowDarkening] = ImVec4(0.80, 0.80, 0.80, 0.35)
 	end
 end
+
+
+
+
+
 
 
 
