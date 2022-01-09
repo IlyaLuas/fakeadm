@@ -72,7 +72,7 @@ local obnova = false -- xyi
 local script_vers = iniupd.info.vers
 local script_versText = iniupd.info.versText
 
-local ini_url = 'https://raw.githubusercontent.com/IlyaLuas/fakeadm/main/version.ini'
+local ini_url = 'https://raw.githubusercontent.com/IlyaLuas/fakeadm/main/config/version.ini'
 local ini_path = getWorkingDirectory() .. "/moonloader/config/version.ini"
 
 local script_url = "https://github.com/IlyaLuas/fakeadm/blob/main/fakeadm.lua?raw=true" -- Лох
