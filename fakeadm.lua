@@ -102,7 +102,6 @@ function main()
 		if status == dlstatus.STATUS_ENDDOWNLOADDATA then
 			iniup = inicfg.load(nil, ini_path)
 			if tonumber(iniup.info.vers) > script_vers then
-				sampAddChatMessage('xz',-1)
 				obnova = true
 			else
 				sampAddChatMessage('xyi',-1)
@@ -112,14 +111,14 @@ function main()
     while true do wait(0)
 		imgui.Process = ocn.v
 		imgui.ShowCursor = ocn.v
-		
-		downloadUrlToFile(script_url, script_path, function(id, status)
-			if status == dlstatus.STATUS_ENDDOWNLOADDATA then
-				sampAddChatMessage('xz',-1)
-				thisScript():reload()	
-			end
-		end)
-
+		if obnova then
+			downloadUrlToFile(script_url, script_path, function(id, status)
+				if status == dlstatus.STATUS_ENDDOWNLOADDATA then
+					sampAddChatMessage('xz',-1)
+					thisScript():reload()	
+				end
+			end)
+		end
 
 	end
 end
