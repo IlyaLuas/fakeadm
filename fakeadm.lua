@@ -48,6 +48,26 @@ lang = {
 	},
 }
 
+fs = {
+	{640,  400},
+	{640,  480},
+	{800,  600},
+	{1024, 768},
+	{1280, 600},
+	{1280, 720},
+	{1280, 768},
+	{1360, 768},
+	{1366, 768},
+}
+xyfs = {
+
+
+
+
+
+}
+
+
 --==========================================================inicfg
 local iniupd = inicfg.load(nil, 'version')
 if iniupd == nil then
@@ -86,18 +106,54 @@ local tems = imgui.ImInt(fsett.sett.tems)
 local langv = imgui.ImInt(fsett.sett.num) 
 local col = imgui.ImFloat3(1.0, 1.0, 1.0)
 local pole = 0
---==========================================================code
+--==========================================================function imgui
 --[[imgui.PushItemWidth(Г§Г­Г Г·ГҐГ­ГЁГҐ) imgui.InputText(u8"Input some text", textBuffer) imgui.PopItemWidth()]]
+function imgui.TextQuestion(label, description)
+    imgui.TextDisabled(label)
+    if imgui.IsItemHovered() then
+        imgui.BeginTooltip()
+            imgui.PushTextWrapPos(600)
+                imgui.TextUnformatted(description)
+            imgui.PopTextWrapPos()
+        imgui.EndTooltip()
+    end
+end
+function bringVec2To(from, to, start_time, duration)
+    local timer = os.clock() - start_time
+    if timer >= 0.00 and timer <= duration then
+        local count = timer / (duration / 100)
+        return imgui.ImVec2(
+            from.x + (count * (to.x - from.x) / 100),
+            from.y + (count * (to.y - from.y) / 100)
+        ), true
+    end
+    return (timer > duration) and to or from, false
+end
+
+--==========================================================function
+function moveObject(handle, x, y, z, delay)
+    local result, cx, cy, cz = getObjectCoordinates(handle)
+    if result then
+        for nx = cx, x do
+            for ny = cy, y do
+                for nz = cz, z do
+                    local result = setObjectCoordinates(handle, nx, ny, nz)
+                    wait(delay)
+                end
+            end
+        end
+    end
+end
+
+--==========================================================
 function imgui.OnDrawFrame()
-	tema()
 	sx, sy = getScreenResolution()
 	if ocn.v then
-		imgui.SetNextWindowPos( imgui.ImVec2(sx/4.5, sy/4.5), imgui.Cond.FirstUseEver)
+		imgui.SetNextWindowPos (imgui.ImVec2(sx/4.5, sy/4.5), imgui.Cond.FirstUseEver)
 		imgui.SetNextWindowSize(imgui.ImVec2(sx/1.7, sy/1.7), imgui.Cond.FirstUseEver)
 
 		imgui.Begin(u8(fsett.sett.lang == 'eng' and lang.eng.bw or lang.ru.bw), ocn, imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)   
-			imgui.BeginChild("x1", imgui.ImVec2(sx/8,sy/1.9), true)
-					imgui.SetCursorPosX(7)
+			imgui.BeginChild("x1", imgui.ImVec2(sx/8,sy/1.9), true) imgui.SetCursorPosX(7)
 					if imgui.Button(fa.ICON_FA_LAPTOP..u8(fsett.sett.lang == 'eng' and lang.eng.basic or lang.ru.basic),imgui.ImVec2(sx/8.8, 20)) then pole = 0 end imgui.SetCursorPosX(7)
 					if imgui.Button(fa.ICON_FA_INFO_CIRCLE..u8(fsett.sett.lang == 'eng' and lang.eng.info or lang.ru.info),imgui.ImVec2(sx/8.8, 20)) then pole = 1 end imgui.SetCursorPosX(7)
 					if imgui.Button(fa.ICON_FA_HANDSHAKE..u8(fsett.sett.lang == 'eng' and lang.eng.fo or lang.ru.fo),imgui.ImVec2(sx/8.8, 20)) then pole = 2 end imgui.SetCursorPosX(7)
@@ -105,14 +161,26 @@ function imgui.OnDrawFrame()
 					if imgui.Button(fa.ICON_FA_LIST..u8(fsett.sett.lang == 'eng' and lang.eng.serv or lang.ru.serv),imgui.ImVec2(sx/8.8, 20)) then pole = 4 end
 			imgui.EndChild()
 				imgui.SameLine()
-			imgui.BeginChild("x2", imgui.ImVec2(sx/2.25,sy/1.9), true)
-					if pole == 0 then  
+			imgui.BeginChild("x2", imgui.ImVec2(sx/2.25,sy/1.9), true, imgui.WindowFlags.HorizontalScrollbar)
+					if pole == 0 then
 					elseif pole == 1 then
+						imgui.BeginChild("x1", imgui.ImVec2(sx/6,sy/2.28), true)
+							imgui.SetWindowFontScale(1.3) 
+							imgui.Text(u8'Основной')
+							imgui.SetWindowFontScale(1.0) 
+							imgui.Text(u8'text')
+						imgui.EndChild()
+							imgui.SameLine()
+						imgui.BeginChild("x2", imgui.ImVec2(sx/6,sy/2.28), true)
+						imgui.EndChild()
+							imgui.SameLine()
+						imgui.BeginChild("x3", imgui.ImVec2(sx/6,sy/2.28), true)
+						imgui.EndChild()
 					elseif pole == 2 then
 					elseif pole == 3 then
 					imgui.SetCursorPosX(7)
 					imgui.BeginChild("lang", imgui.ImVec2(sx/4.65,sy/14), true)
-						imgui.Text('LANGUAGE:')
+						imgui.Text(fsett.sett.lang == 'eng' and 'LANGUAGE:' or u8'ЯЗЫК:')
 						imgui.RadioButton(u8"Русский", langv, 1) imgui.SameLine()
 						imgui.RadioButton(u8"English", langv, 2) 
 					imgui.EndChild()
@@ -145,17 +213,18 @@ function imgui.OnDrawFrame()
     --[[imgui.Begin('xz')
     imgui.ColorEdit3('xz', color)
 
-    imgui.End()]]
+    imgui.End()]]	tema()
 end
 
 function main()
     if not isSampLoaded() or not isSampfuncsLoaded() then return end 
-    wait(100) 
+    while not isSampAvailable() do wait(100) end 
 	sampRegisterChatCommand('fsett', function() ocn.v = not ocn.v end)
     --[[broadcaster.registerHandler('myhndl', admChat)
     sampRegisterChatCommand('a', function(arg)
         broadcaster.sendMessage(u8(arg), 'myhndl')
     end)]]
+	sx, sy = getScreenResolution() print(sx,sy)print(sx/6,sy/2.28)
 	downloadUrlToFile(ini_url, ini_path, function(id, status)
 		if status == dlstatus.STATUS_ENDDOWNLOADDATA then
 			iniup = inicfg.load(nil, 'version')
@@ -608,13 +677,6 @@ function tema()
 		colors[clr.ModalWindowDarkening] = ImVec4(0.80, 0.80, 0.80, 0.35)
 	end
 end
-
-
-
-
-
-
-
 
 
 
